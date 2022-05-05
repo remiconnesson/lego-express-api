@@ -1,6 +1,38 @@
 const Collection = require("../Collection");
 
 describe("Collection", () => {
+  describe("updateOne", () => {
+    it("should refuse update when id does not exist", () => {
+      const testCollection = new Collection("test");
+      // id 1000 does not exits
+      expect(() => {
+        testCollection.updateOne(1000);
+      }).toThrow(/1000/);
+    });
+    it("should do the update if ID exists", () => {
+      const testCollection = new Collection("test");
+      const { id } = testCollection.insertOne({ state: "Created" });
+      testCollection.updateOne(id, { state: "Updated" });
+      expect(testCollection.getOne(id)).toEqual({ state: "Updated" });
+    });
+  });
+
+  describe("deleteOne", () => {
+    it("should refuse to delete when id does not exist", () => {
+      const testCollection = new Collection("test");
+      // id 1000 does not exits
+      expect(() => {
+        testCollection.updateOne(1000);
+      }).toThrow(/1000/);
+    });
+    it("should delete the target if ID exists", () => {
+      const testCollection = new Collection("test");
+      const { id } = testCollection.insertOne({ state: "Created" });
+      testCollection.deleteOne(id);
+      expect(testCollection.exists(id)).toBe(false);
+    });
+  });
+
   describe("insertOne", () => {
     it("should automatically increment the ID key", () => {
       const testCollection = new Collection("testCollection");
@@ -32,7 +64,6 @@ describe("Collection", () => {
         name: "Rémi",
       });
       let match = testCollection.findByProperty("name", "Rémi");
-      console.log(match);
       expect(match.id).toBe(id);
       expect(match.found).toMatchObject({
         notThisProperty: "Rémi",
@@ -53,13 +84,13 @@ describe("Collection", () => {
         name: "Rémi",
       });
       let match = testCollection.findByProperty("name", "Rémi");
-      console.log(match);
       expect(match.id).toBe(id);
       expect(match.found).toMatchObject({
         notThisProperty: "Rémi",
         name: "Rémi",
       });
     });
+
     it("should return {} if there's no match", () => {
       const testCollection = new Collection("testCollection");
 
