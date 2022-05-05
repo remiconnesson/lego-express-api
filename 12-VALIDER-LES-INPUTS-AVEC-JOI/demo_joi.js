@@ -26,3 +26,8 @@ console.log(schema2.validate({name:"Leo", age:"12"}));
 console.log(schema2.validate({name:"Leo", age:-1}));
 console.log(schema2.validate({name:"Leo" }));
 console.log(schema2.validate({age:20}));
+
+const validationResults = schema.validate({name:"L"});
+console.log(validationResults)
+console.log(validationResults.error)
+console.log(validationResults.error.details[0].message);
