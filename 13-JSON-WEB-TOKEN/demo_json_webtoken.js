@@ -3,15 +3,15 @@ require('dotenv').config();
 
 
 const token = jwt.sign({userId: 12}, process.env.SECRET_JWT);
-console.log(token);
+console.log("token JWT", token);
 
 const decoded = jwt.verify(token, process.env.SECRET_JWT);
-console.log(decoded);
+console.log("token JWT décodé", decoded);
 
 try {
   const notdecoded = jwt.verify(token, "PAS_LE_BON_SECRET");
 }catch(exc){
-  console.log('PAS LA BONNE SIGNATURE');
+  console.log("échec de jwt.verify : PAS LA BONNE SIGNATURE");
 }
 
 // faketoken
@@ -23,11 +23,11 @@ const payload = token.split('.')[1];
 const signature = token2.split('.')[2];
 
 const fakeToken = header +"."+ payload +"."+ signature
-console.log("FAKE TOKEN ", fakeToken);
+console.log("FAKE TOKEN : ", fakeToken);
 
 
 try {
   const failedVerification = jwt.verify(fakeToken, process.env.SECRET_JWT);
 }catch(exc){
-  console.log('PAS LA BONNE SIGNATURE');
+  console.log('echec de la vérification du Faux Token : PAS LA BONNE SIGNATURE');
 }
