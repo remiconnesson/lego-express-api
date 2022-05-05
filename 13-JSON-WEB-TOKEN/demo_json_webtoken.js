@@ -14,5 +14,20 @@ try {
   console.log('PAS LA BONNE SIGNATURE');
 }
 
+// faketoken
+
+const token2 = jwt.sign({userId: 13}, process.env.SECRET_JWT);
+
+const header = token.split('.')[0];
+const payload = token.split('.')[1];
+const signature = token2.split('.')[2];
+
+const fakeToken = header +"."+ payload +"."+ signature
+console.log("FAKE TOKEN ", fakeToken);
 
 
+try {
+  const failedVerification = jwt.verify(fakeToken, process.env.SECRET_JWT);
+}catch(exc){
+  console.log('PAS LA BONNE SIGNATURE');
+}
