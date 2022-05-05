@@ -25,9 +25,19 @@ class Table {
       throw new Error(`Key ${id} doesn't not exists`);
     }
   }
-
   getAll() {
     return Object.fromEntries(this.memoryDb);
+  }
+  findByProperty(propertyName, value){
+    let result;
+    this.memoryDb.forEach((obj, id) => {
+      if (!result) {
+        if (propertyName in obj && obj[propertyName] === value){
+          return {id: id, found: obj} 
+        }
+      }
+    })
+    return {}
   }
 }
 
