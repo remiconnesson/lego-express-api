@@ -6,7 +6,14 @@ class Table {
   }
   insertOne(obj) {
     this.memoryDb.set(this.id, obj);
-    return {id: this.id++, inserted: obj}
+    return { id: this.id++, inserted: obj };
+  }
+  getOne(id) {
+    if (this.exists(id)) {
+      return this.memoryDb.get(id);
+    } else {
+      throw new Error(`Key ${id} doesn't not exists`);
+    }
   }
   exists(id) {
     return this.memoryDb.has(id);
@@ -28,16 +35,17 @@ class Table {
   getAll() {
     return Object.fromEntries(this.memoryDb);
   }
-  findByProperty(propertyName, value){
-    let result;
+  findByProperty(propertyName, value) {
+    let result = false;
     this.memoryDb.forEach((obj, id) => {
       if (!result) {
-        if (propertyName in obj && obj[propertyName] === value){
-          return {id: id, found: obj} 
+        if (propertyName in obj && obj[propertyName] === value) {
+          result = { id: id, found: obj };
+          console.log(result);
         }
       }
-    })
-    return {}
+    });
+    return result || {};
   }
 }
 
