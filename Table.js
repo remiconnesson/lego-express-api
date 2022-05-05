@@ -6,7 +6,7 @@ class Table {
   }
   insertOne(obj) {
     this.memoryDb.set(this.id, obj);
-    return {id: id++, inserted: obj}
+    return {id: this.id++, inserted: obj}
   }
   exists(id) {
     return this.memoryDb.has(id);
