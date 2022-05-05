@@ -4,10 +4,9 @@ class Table {
     this.memoryDb = new Map();
     this.id = 0;
   }
-
   insertOne(obj) {
-    this.memoryDb.set(this.id++, obj);
-
+    this.memoryDb.set(this.id, obj);
+    return {id: id++, inserted: obj}
   }
   exists(id) {
     return this.memoryDb.has(id);
