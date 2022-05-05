@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
@@ -10,7 +11,7 @@
     "jest": "^28.0.3",
     "supertest": "^6.2.3"
   },
-  "scripts":{
+  "scripts": {
     "test": "jest --watchAll"
   }
 }
