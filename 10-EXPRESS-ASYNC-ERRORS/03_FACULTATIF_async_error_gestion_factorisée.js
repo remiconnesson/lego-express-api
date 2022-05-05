@@ -28,7 +28,7 @@ function gestionErreurAsync(func) {
 }
 
 // Nous pouvons nous contenter de passer req et res si
-//  notre callback de route ne l'utilise pas.
+//  notre callback de route n'utilise pas next().
 app.get(
   "/",
   gestionErreurAsync(async (req, res) => {
