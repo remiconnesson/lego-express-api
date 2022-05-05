@@ -1,6 +1,6 @@
-class Table {
-  constructor(tableName) {
-    this.tableName = tableName;
+class Collection{
+  constructor(collectionName) {
+    this.collectionName = collectionName;
     this.memoryDb = new Map();
     this.id = 0;
   }
@@ -41,7 +41,6 @@ class Table {
       if (!result) {
         if (propertyName in obj && obj[propertyName] === value) {
           result = { id: id, found: obj };
-          console.log(result);
         }
       }
     });
@@ -49,4 +48,4 @@ class Table {
   }
 }
 
-module.exports = Table;
+module.exports = Collection;
