@@ -1,11 +1,15 @@
-const express = require("express");
+// Validation 
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const Collection = require("../Collection");
-require("express-async-errors"); // bcrypt est asynchrone
-require("dotenv").config();
 
+// Express + async errors
+const express = require("express");
+require("express-async-errors"); // bcrypt est asynchrone
+const app = express();
+
+// JWT + dotenv + vérification de la présence d'une variable d'environnement
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 if (!process.env.JWT_PRIVATE_KEY) {
   console.log(
     "Vous devez créer un fichier .env qui contient la variable JWT_PRIVATE_KEY"
@@ -13,15 +17,21 @@ if (!process.env.JWT_PRIVATE_KEY) {
   process.exit(1);
 }
 
+// Bases de donneés.
+const Collection = require("../Collection");
 const Accounts = new Collection("Accounts");
-const app = express();
 
+// On va avoir besoin de parser le json entrant dans req.body
 app.use(express.json());
 
+
+// route de debug
 app.get("/accounts", (req, res) => {
   res.json(Accounts.getAll());
 });
 
+
+// INSCRIPTION
 app.post("/signup", async (req, res) => {
   const payload = req.body;
   const schema = Joi.object({
@@ -47,6 +57,7 @@ app.post("/signup", async (req, res) => {
   });
 });
 
+// CONNEXION
 app.post("/signin", async (req, res, next) => {
   const payload = req.body;
   const schema = Joi.object({
@@ -74,6 +85,9 @@ app.post("/signin", async (req, res, next) => {
   res.header("x-auth-token", token).status(200).send({ name: account.name });
 });
 
+
+
+// fin du fichier
 if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => {
     console.log("listening...");
