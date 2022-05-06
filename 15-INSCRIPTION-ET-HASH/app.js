@@ -1,19 +1,23 @@
-const express = require("express");
-const Joi = require("joi");
-const bcrypt = require("bcrypt");
-const Collection = require("../Collection");
-require('express-async-errors'); // bcrypt est asynchrone
+const bcrypt = require("bcrypt"); // MODULE POUR HASHER LES PASSWORDS
+const Joi = require("joi"); // POUR FAIRE LA VALDIATION DES INPUTS
 
-const Accounts = new Collection("Accounts");
+const express = require("express");
+require('express-async-errors'); // bcrypt est asynchrone
 const app = express();
+
+const Collection = require("../Collection");
+const Accounts = new Collection("Accounts");
+
 
 
 app.use(express.json());
 
+// requête facultative pour débug.
 app.get("/accounts", (req, res) => {
   res.json(Accounts.getAll());
 });
 
+// LA LOGIQUE D'INSCRIPTION AVEC LE HAS 
 app.post("/signup", async (req, res) => {
   const payload = req.body;
   const schema = Joi.object({

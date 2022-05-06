@@ -31,6 +31,7 @@ describe("POST /signup", () => {
 
     const {id, found:account } = Accounts.findByProperty("name", "Geralt")
     const hashedPassword = account.password;
+    // Je vérifie que le HashedPassword ne contient pas le mots de passe original.
     expect(hashedPassword).not.toMatch(/secret1234/); 
   });
 });
