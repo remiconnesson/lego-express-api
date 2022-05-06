@@ -50,7 +50,15 @@ describe("Collection", () => {
     });
   });
 
-  describe("searchByProperty", () => {
+  describe("findByProperty", () => {
+    it("should find an account based the property email", ()=>{
+      const testCollection = new Collection("testCollection");
+      testCollection.insertOne({ email: 'zorro@gmail.com', password: 'secret1234' })
+      const {id, found} = testCollection.findByProperty("email", 'zorro@gmail.com')
+      expect(id).toBe(0);
+      expect(found).toEqual({ email: 'zorro@gmail.com', password: 'secret1234' })
+
+    })
     it("should find an object stored with matching propertyName and value if it's present amongst objects with same schema.", () => {
       const testCollection = new Collection("testCollection");
 
