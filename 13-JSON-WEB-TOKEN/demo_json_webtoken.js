@@ -1,6 +1,11 @@
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
+if (!process.env.SECRET_JWT) {
+  console.error('ERROR: Une variable d\'environnement SECRET_JWT doit existée');
+  process.exit(1);
+}
+
 
 const token = jwt.sign({userId: 12}, process.env.SECRET_JWT);
 console.log("token JWT", token);
