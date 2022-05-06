@@ -58,7 +58,7 @@ app.post("/signup", async (req, res) => {
 });
 
 // CONNEXION
-app.post("/signin", async (req, res, next) => {
+app.post("/signin", async (req, res) => {
   const payload = req.body;
   const schema = Joi.object({
     email: Joi.string().max(255).required().email(),
@@ -68,6 +68,7 @@ app.post("/signin", async (req, res, next) => {
   const { value: connexion, error } = schema.validate(payload);
 
   if (error) return res.status(400).send({ erreur: error.details[0].message });
+
   // ON CHERCHE LE COMPTE DANS LA DB
   const { id, found: account } = Accounts.findByProperty(
     "email",
@@ -76,7 +77,7 @@ app.post("/signin", async (req, res, next) => {
   if (!account) return res.status(400).send({ erreur: "Email Invalide" });
 
   // ON DOIT COMPARER LES HASH
-  const passwordIsValid = bcrypt.compare(req.body.password, account.password);
+  const passwordIsValid = await bcrypt.compare(req.body.password, account.password);
   if (!passwordIsValid)
     return res.status(400).send({ erreur: "Mot de Passe Invalide" });
 
